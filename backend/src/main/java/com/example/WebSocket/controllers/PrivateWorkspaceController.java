@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:5173/", "https://anonymate-amber.vercel.app/" })
+@CrossOrigin("https://anonymate-amber.vercel.app")
 @RequestMapping("/room")
 public class PrivateWorkspaceController {
 
