@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { createRoom, disconnect, joinRoom, sendMessageOverRoom } from '../services/WebSocketService'
 import { UserContext } from '../UserProvider';
 import { toast } from 'react-toastify';
@@ -9,15 +9,21 @@ const OneToOneChat = () => {
   const [allMessages, setAllMessages] = useState([]);
   const [isJoined, setIsJoined] = useState(false);
   const [roomCode, setRoomCode] = useState("");
-
-  const userContext = useContext(UserContext);
-  const userId = userContext.userId;
+  const {userId} = useContext(UserContext);
+  const responseRef = useRef(null); 
 
   useEffect(() => {
     if(isJoined && userId){
       joinRoom(onRoomJoined, roomCode);
     }
   },[isJoined])
+
+
+  useEffect(() => {
+    if (responseRef.current) {
+        responseRef.current.scrollTop = responseRef.current.scrollHeight;
+    }
+}, [allMessages]);
 
   
   const onRoomJoined = (msg) => {
@@ -96,7 +102,7 @@ const OneToOneChat = () => {
         :
 
       <div className='p-2 text-left flex flex-col justify-end w-full h-full overflow-hidden'>
-        <div id='response' className='overflow-y-auto flex flex-col'> 
+        <div id='response' className='overflow-y-auto flex flex-col' ref={responseRef}> 
             {
                 allMessages?.map((msg, idx) => (
                   <p className={`${msg.isSelf ? 'bg-blue-500 text-white self-end' : 'bg-white text-black self-start'} w-fit max-w-[60%] px-4 py-1 my-2 rounded-[2rem]`} key={idx}>{msg.text}</p>

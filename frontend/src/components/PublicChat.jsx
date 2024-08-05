@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { connect, disconnect, sendMessage } from '../services/WebSocketService'
 import { UserContext } from '../UserProvider';
 
 const PublicChat = () => {
     const [message, setMessage] = useState("");
-    const userContext = useContext(UserContext);
-    const userId = userContext.userId;
+    const {userId, allMessages, setAllMessages} = useContext(UserContext);
+    const responseRef = useRef(null);
 
     useEffect(() => {
         if(userId){
@@ -13,19 +13,28 @@ const PublicChat = () => {
         }
     }, [userId])
 
+
+    useEffect(() => {
+        if (responseRef.current) {
+            responseRef.current.scrollTop = responseRef.current.scrollHeight;
+        }
+    }, [allMessages]);
+
+
     const onMessageRecieved = (msg) => {
         if(msg){
             const receivedMsg = msg.toString().split(" : ").at(1);
             const senderId = msg.toString().split(" : ").at(0).split("-")[1];
-
+            
+            const responseEle = document.querySelector("#response");
+            
             if(userId !== senderId){
-                // userContext.setAllMessages((prevMsg) => [...prevMsg, msg]);
-                userContext.setAllMessages((prevMessages) => [...prevMessages, { text: receivedMsg, sender: `user-${userId}`, isSelf: false }]);
+                // setAllMessages((prevMsg) => [...prevMsg, msg]);
+                setAllMessages((prevMessages) => [...prevMessages, { text: receivedMsg, sender: `user-${userId}`, isSelf: false }]);
             }
 
-            const responseEle = document.querySelector("#response");
-
             responseEle.scrollTop = responseEle.scrollHeight;
+
             setMessage("");
         }
     }
@@ -35,16 +44,16 @@ const PublicChat = () => {
         if(message.trim() !== ""){
             const msg = `user-${userId} : ${message}`
             sendMessage(msg);
-            userContext.setAllMessages((prevMessages) => [...prevMessages, { text: message, sender: `user-${userId}`, isSelf: true }]);
+            setAllMessages((prevMessages) => [...prevMessages, { text: message, sender: `user-${userId}`, isSelf: true }]);
             setMessage("");
         }
     }
     return (
         <div className= 'w-full h-full'>
             <div className='p-2 text-left flex flex-col justify-end w-full h-full overflow-hidden'>
-                <div id='response' className='overflow-y-auto flex flex-col'> 
+                <div id='response' className='overflow-y-auto flex flex-col' ref={responseRef}> 
                     {
-                        userContext.allMessages?.map((msg, idx) => (
+                        allMessages?.map((msg, idx) => (
                             <p className={`${msg.isSelf ? 'bg-blue-500 text-white self-end' : 'bg-white text-black self-start'} w-fit max-w-[60%] px-4 py-1 my-2 rounded-[2rem]`} key={idx}>{msg.text}</p>
                         ))
                     }
