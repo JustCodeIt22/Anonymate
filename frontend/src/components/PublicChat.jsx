@@ -47,9 +47,6 @@ const PublicChat = () => {
             sendMessage(msg);
             setAllMessages((prevMessages) => [...prevMessages, { text: message, sender: `user-${userId}`, isSelf: true }]);
             setMessage("");
-            if(inputRef){
-                inputRef.current.focus();
-            }
         }
     }
     return (
