@@ -41,7 +41,7 @@ const PublicChat = () => {
     }
 
     const handleOnSubmit = (e) => {
-        e.preventDefault(false);
+        e.preventDefault();
         if(message.trim() !== ""){
             const msg = `user-${userId} : ${message}`
             sendMessage(msg);
