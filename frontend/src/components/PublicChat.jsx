@@ -6,6 +6,7 @@ const PublicChat = () => {
     const [message, setMessage] = useState("");
     const {userId, allMessages, setAllMessages} = useContext(UserContext);
     const responseRef = useRef(null);
+    const inputRef = useRef(null);
 
     useEffect(() => {
         if(userId){
@@ -46,6 +47,9 @@ const PublicChat = () => {
             sendMessage(msg);
             setAllMessages((prevMessages) => [...prevMessages, { text: message, sender: `user-${userId}`, isSelf: true }]);
             setMessage("");
+            if(inputRef){
+                inputRef.current.focus();
+            }
         }
     }
     return (
@@ -59,7 +63,7 @@ const PublicChat = () => {
                     }
                 </div>
                 <form className= 'w-full rounded-sm flex justify-center pt-2 my-2' onSubmit={handleOnSubmit} autoComplete='off'>
-                    <input className='p-2.5 flex-auto' type="text" name="msg" id="msgId" value={message} placeholder='Enter message here ...' onChange={(e) => setMessage(e.target.value)}/>
+                    <input ref={inputRef} className='p-2.5 flex-auto' type="text" name="msg" id="msgId" value={message} placeholder='Enter message here ...' onChange={(e) => setMessage(e.target.value)}/>
                     <button type="submit" className='bg-green-600'>Send</button>
                 </form>
             </div>
