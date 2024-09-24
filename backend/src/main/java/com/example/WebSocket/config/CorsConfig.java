@@ -14,7 +14,8 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://anonymate-amber.vercel.app/", "http://localhost:5173")
+                        .allowedOrigins("https://anonymate.onrender.com", "https://anonymate-amber.vercel.app/",
+                                "http://localhost:5173")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
