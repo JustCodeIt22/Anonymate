@@ -40,4 +40,4 @@ $ npm run dev
 ```
 <br>
 
-## <pre>         That's it, Congrats !!🎉 you have successfully run the code. <br>                          🎉 Happy Coding 😊 !!🎉</pre>
+## 🎉 Happy Coding 😊 !!🎉
