@@ -11,6 +11,11 @@ Anonymate is a web chat application where you can chat without revealing your id
 ## 2. Anonymate on Mobile devices
 <img src="https://github.com/user-attachments/assets/01b74ea7-c5dd-4c1d-be9f-be894fd52846" width=300>
 
+## 2. Anonymate room chat
+
+<img src="https://github.com/user-attachments/assets/35219a94-8348-45b2-a4eb-0447991a83c0" width=500>
+<img src="https://github.com/user-attachments/assets/eed5d513-4970-402c-9ea2-912d5615baa1" width=500>
+
 <br>
 <br>
 
